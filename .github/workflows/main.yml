@@ -30,3 +30,9 @@ jobs:
       
       - name: Push image
         run: docker push registry.digitalocean.com/test-deploy-container/digital-ocean-deploy:$(echo $GITHUB_SHA | head -c7)
+
+      - name: Update deploy file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/test-deploy-container/digital-ocean-deploy:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+
+      - name: save config cluster
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 test-k8s-cluster
