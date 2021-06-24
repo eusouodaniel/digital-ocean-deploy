@@ -36,3 +36,6 @@ jobs:
 
       - name: save config cluster
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 test-k8s-cluster
+
+      - name: Deploy
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
